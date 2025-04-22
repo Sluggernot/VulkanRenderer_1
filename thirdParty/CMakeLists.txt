@@ -7,6 +7,8 @@ add_library(glm INTERFACE)
 add_library(vma INTERFACE)
 
 add_subdirectory(SDL EXCLUDE_FROM_ALL)
+#add_subdirectory(fmt EXCLUDE_FROM_ALL)
+add_subdirectory(fmt-11.1.4 EXCLUDE_FROM_ALL)
 
 target_sources(vkbootstrap PRIVATE
         vkbootstrap/VkBootstrap.h

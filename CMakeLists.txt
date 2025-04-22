@@ -21,6 +21,7 @@ target_include_directories(VulkanRender1 PRIVATE ${Vulkan_INCLUDE_DIRS})
 target_link_libraries(VulkanRender1
         PUBLIC
         vkbootstrap
+        fmt::fmt
         PRIVATE
         SDL2
         gmp

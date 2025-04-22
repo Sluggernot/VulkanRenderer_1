@@ -210,7 +210,7 @@ void VulkanEngine::init_commands()
     commandPoolInfo.queueFamilyIndex = _graphicsQueueFamily;
 
     for (auto & _frame : _frames) {
-        /*VK_CHECK*/(vkCreateCommandPool(_device, &commandPoolInfo, nullptr, &_frame._commandPool));
+        VK_CHECK(vkCreateCommandPool(_device, &commandPoolInfo, nullptr, &_frame._commandPool));
 
         // allocate the default command buffer that we will use for rendering
         VkCommandBufferAllocateInfo cmdAllocInfo = {};
@@ -220,7 +220,7 @@ void VulkanEngine::init_commands()
         cmdAllocInfo.commandBufferCount = 1;
         cmdAllocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 
-        /*VK_CHECK*/(vkAllocateCommandBuffers(_device, &cmdAllocInfo, &_frame._mainCommandBuffer));
+        VK_CHECK(vkAllocateCommandBuffers(_device, &cmdAllocInfo, &_frame._mainCommandBuffer));
     }
 }
 void VulkanEngine::init_sync_structures()
