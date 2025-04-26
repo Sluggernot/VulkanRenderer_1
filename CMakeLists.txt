@@ -25,6 +25,7 @@ target_link_libraries(VulkanRender1
         PRIVATE
         SDL2
         gmp
+        vkguide_shared
         ${Vulkan_LIBRARIES}
         vulkan
 )
