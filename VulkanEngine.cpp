@@ -55,6 +55,12 @@ void VulkanEngine::init()
 void VulkanEngine::cleanup() {
 
     if (_isInitialized) {
+        vkDeviceWaitIdle(_device);
+
+        for (auto & _frame : _frames) {
+            vkDestroyCommandPool(_device, _frame._commandPool, nullptr);
+        }
+
         destroy_swapchain();
 
         vkDestroySurfaceKHR(_instance, _surface, nullptr);
@@ -159,6 +165,7 @@ void VulkanEngine::init_vulkan()
 
     // use vkbootstrap to get a Graphics queue
     _graphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
+    // assert(_graphicsQueue == detail::QUEUE_INDEX_MAX_VALUE); //Isn't this what we really want to happen?
     _graphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
 }
 
@@ -223,7 +230,20 @@ void VulkanEngine::init_commands()
         VK_CHECK(vkAllocateCommandBuffers(_device, &cmdAllocInfo, &_frame._mainCommandBuffer));
     }
 }
+
 void VulkanEngine::init_sync_structures()
 {
-    //nothing yet
+    //create syncronization structures
+    //one fence to control when the gpu has finished rendering the frame,
+    //and 2 semaphores to syncronize rendering with swapchain
+    //we want the fence to start signalled so we can wait on it on the first frame
+    // VkFenceCreateInfo fenceCreateInfo = vkinit::fence_create_info(VK_FENCE_CREATE_SIGNALED_BIT);
+    // VkSemaphoreCreateInfo semaphoreCreateInfo = vkinit::semaphore_create_info();
+    //
+    // for (int i = 0; i < FRAME_OVERLAP; i++) {
+    //     VK_CHECK(vkCreateFence(_device, &fenceCreateInfo, nullptr, &_frames[i]._renderFence));
+    //
+    //     VK_CHECK(vkCreateSemaphore(_device, &semaphoreCreateInfo, nullptr, &_frames[i]._swapchainSemaphore));
+    //     VK_CHECK(vkCreateSemaphore(_device, &semaphoreCreateInfo, nullptr, &_frames[i]._renderSemaphore));
+    // }
 }

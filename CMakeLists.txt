@@ -11,21 +11,20 @@ add_executable(VulkanRender1
 
 find_package(Vulkan REQUIRED)
 
-add_subdirectory(thirdParty)
 add_subdirectory(shared)
-
-target_include_directories(VulkanRender1 PRIVATE ${CMAKE_SOURCE_DIR}/shared)
+add_subdirectory(thirdParty)
 
 target_include_directories(VulkanRender1 PRIVATE ${Vulkan_INCLUDE_DIRS})
+target_include_directories(VulkanRender1 PRIVATE ${CMAKE_SOURCE_DIR}/shared)
 
 target_link_libraries(VulkanRender1
         PUBLIC
         vkbootstrap
         fmt::fmt
+        volk
         PRIVATE
         SDL2
         gmp
         ${Vulkan_LIBRARIES}
-#        Vulkan
-        volk
+        vulkan
 )
